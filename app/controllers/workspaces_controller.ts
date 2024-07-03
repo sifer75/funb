@@ -26,12 +26,20 @@ export default class WorkspacesController {
     }
   }
 
+  async getAllWorkspace({ response }: HttpContext) {
+    try {
+      const workspaces = await Workspace.all()
+      return response.status(200).json(workspaces)
+    } catch (e) {
+      return response.status(500).json({ e: 'erreur lors de la recherche des workspaces' })
+    }
+  }
+
   async updateWorkspace({ response, params, request }: HttpContext) {
     try {
       const data = request.only(['title', 'description'])
 
       const workspaceId = params.id
-
       if (!workspaceId) {
         return response.status(401).json({ e: 'id du workspace non trouvé' })
       }
@@ -46,7 +54,7 @@ export default class WorkspacesController {
       workspace.description = data.description
 
       await workspace.save()
-      return response.status(201)
+      return response.status(201).json(workspace)
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la modification du workspace' })
     }
@@ -54,7 +62,10 @@ export default class WorkspacesController {
 
   async deleteWorkspace({ response, params }: HttpContext) {
     try {
+      console.log('coucou')
+
       const workspaceId = await params.id
+      console.log(workspaceId)
 
       if (!workspaceId) {
         return response.status(500).json({ e: 'id du workspace non trouvé' })
@@ -65,10 +76,10 @@ export default class WorkspacesController {
       if (!workspace) {
         return response.status(401).json({ e: 'workspace non trouvé' })
       }
-
+      console.log(workspace, workspaceId)
       await workspace.delete()
 
-      return response.status(200).json(workspace)
+      return response.status(204)
     } catch (e) {
       return response.status(500).json({ e: 'erreur lors de la suppression du workspace' })
     }
