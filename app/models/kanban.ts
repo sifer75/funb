@@ -12,10 +12,7 @@ export default class Kanban extends BaseModel {
   declare title: string
 
   @column()
-  declare description: string
-
-  @column()
-  declare task: number
+  declare workspace_id: number
 
   @column()
   declare status: 'unstarted' | 'in_progress' | 'finished'

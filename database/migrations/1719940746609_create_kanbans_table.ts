@@ -7,8 +7,6 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').notNullable()
       table.string('title')
-      table.string('description')
-      table.integer('task')
       table.enum('status', ['unstarted', 'in_progress', 'finished']).defaultTo('unstarted')
       table
         .integer('workspace_id')

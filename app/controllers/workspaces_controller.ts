@@ -8,19 +8,13 @@ export default class WorkspacesController {
         'description',
       ])
 
-      console.log(title, description)
-
       const workspace = new Workspace()
       workspace.title = title
       workspace.description = description
 
       await workspace.save()
 
-      // Retourner une réponse JSON valide
-      return response.status(201).json({
-        message: 'Workspace créé avec succès',
-        workspace,
-      })
+      return response.status(201).json(workspace)
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la création du workspace' })
     }
@@ -31,7 +25,7 @@ export default class WorkspacesController {
       const workspaces = await Workspace.all()
       return response.status(200).json(workspaces)
     } catch (e) {
-      return response.status(500).json({ e: 'erreur lors de la recherche des workspaces' })
+      return response.status(500).json({ e: 'Erreur lors de la recherche des workspaces' })
     }
   }
 
@@ -41,13 +35,13 @@ export default class WorkspacesController {
 
       const workspaceId = params.id
       if (!workspaceId) {
-        return response.status(401).json({ e: 'id du workspace non trouvé' })
+        return response.status(404).json({ e: 'id du workspace non trouvé' })
       }
 
       const workspace = await Workspace.findOrFail(workspaceId)
 
       if (!workspace) {
-        return response.status(401).json({ e: 'workspace non trouvé' })
+        return response.status(404).json({ e: 'workspace non trouvé' })
       }
 
       workspace.title = data.title
@@ -62,10 +56,7 @@ export default class WorkspacesController {
 
   async deleteWorkspace({ response, params }: HttpContext) {
     try {
-      console.log('coucou')
-
       const workspaceId = await params.id
-      console.log(workspaceId)
 
       if (!workspaceId) {
         return response.status(500).json({ e: 'id du workspace non trouvé' })
@@ -76,12 +67,11 @@ export default class WorkspacesController {
       if (!workspace) {
         return response.status(401).json({ e: 'workspace non trouvé' })
       }
-      console.log(workspace, workspaceId)
       await workspace.delete()
 
       return response.status(204)
     } catch (e) {
-      return response.status(500).json({ e: 'erreur lors de la suppression du workspace' })
+      return response.status(500).json({ e: 'Erreur lors de la suppression du workspace' })
     }
   }
 }
