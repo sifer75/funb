@@ -14,7 +14,6 @@ export default class KanbansController {
       if (!workspace) {
         return response.status(404).json({ e: 'workspace non trouvé' })
       }
-      // console.log(title, workspaceId, 'wwwww')
       const kanban = new Kanban()
       kanban.title = title
       kanban.workspace_id = workspaceId
@@ -23,7 +22,6 @@ export default class KanbansController {
 
       return response.status(201).json(kanban)
     } catch (e) {
-      console.log(e, 'eeeee')
       return response.status(500).json({ e: 'Erreur lors da la création du kanban' })
     }
   }
@@ -48,12 +46,11 @@ export default class KanbansController {
       }
 
       const kanban = await Kanban.findOrFail(kanbanId)
-
       if (!kanban) {
         return response.status(404).json({ e: 'kanban non trouvé' })
       }
-      kanban.title = data.title
 
+      kanban.title = data.title
       await kanban.save()
       return response.status(201).json(kanban)
     } catch (e) {
@@ -71,10 +68,8 @@ export default class KanbansController {
       if (!kanban) {
         return response.status(404).json({ e: 'kanban non trouvé' })
       }
-
       await kanban.delete()
-
-      return response.status(204)
+      return response.status(200).json({ message: 'kanban supprimé avec succès' })
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la suppression du kanban' })
     }

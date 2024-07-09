@@ -69,7 +69,7 @@ export default class WorkspacesController {
       }
       await workspace.delete()
 
-      return response.status(204)
+      return response.status(200).json({ message: 'workspace supprimé avec succès' })
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la suppression du workspace' })
     }

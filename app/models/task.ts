@@ -14,6 +14,9 @@ export default class Task extends BaseModel {
   declare description: string
 
   @column()
+  declare kanban_id: number
+
+  @column()
   declare status: 'to_do' | 'in_progress' | 'finished'
 
   @belongsTo(() => Kanban, { foreignKey: 'kanban_id' })
