@@ -44,20 +44,16 @@ export default class TasksController {
   async updateTask({ response, params, request }: HttpContext) {
     try {
       const data = request.only(['title', 'description'])
-
       const taskId = params.id
       if (!taskId) {
         return response.status(404).json({ e: 'id de la tâche non trouvée' })
       }
       const task = await Task.findOrFail(taskId)
-
       if (!task) {
         return response.status(404).json({ e: 'tâche non trouvée' })
       }
-
       task.title = data.title
       task.description = data.description
-
       await task.save()
       return response.status(201).json(task)
     } catch (e) {
@@ -82,6 +78,26 @@ export default class TasksController {
     } catch (e) {
       console.log(e)
       return response.status(500).json({ e: 'Erreur lors de la suppression de la tâche' })
+    }
+  }
+
+  async updateTaskStatus({ request, response, params }: HttpContext) {
+    try {
+      const data = request.only(['status'])
+      const taskId = params.id
+      if (!taskId) {
+        return response.status(404).json({ e: 'id de la tâche non trouvée' })
+      }
+      const task = await Task.findOrFail(taskId)
+      if (!task) {
+        return response.status(404).json({ e: 'tâche non trouvée' })
+      }
+      task.status = data.status
+      await task.save()
+    } catch (e) {
+      return response
+        .status(500)
+        .json({ e: 'Erreur lors de la modification du status de la tâche' })
     }
   }
 }

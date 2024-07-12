@@ -34,5 +34,7 @@ router.post('/task/create', [TaskController, 'createTask'])
 router.get('/task/get/:id', [TaskController, 'getAllTask'])
 router.post('/task/update/:id', [TaskController, 'updateTask'])
 router.delete('/task/delete/:id', [TaskController, 'deleteTask'])
+//update task status
+router.post('/task/update/status/:id', [TaskController, 'updateTaskStatus'])
 //   })
 //   .use(middleware.auth({ guards: ['web'] }))
