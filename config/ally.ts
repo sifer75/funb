@@ -11,6 +11,7 @@ const allyConfig = defineConfig({
     clientId: env.get('GITHUB_CLIENT_ID'),
     clientSecret: env.get('GITHUB_CLIENT_SECRET'),
     callbackUrl: 'http://localhost:3333/github/callback',
+    scopes: ['user', 'user:email'],
   }),
 })
 export default allyConfig

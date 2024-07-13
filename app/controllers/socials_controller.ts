@@ -5,7 +5,7 @@ export default class SocialsController {
   async githubRedirect({ ally }: HttpContext) {
     try {
       await ally.use('github').redirect((request) => {
-        request.scopes(['user'])
+        request.scopes(['user', 'user:email'])
       })
     } catch (error) {
       throw new Error('Erreur lors de la redirection vers GitHub : ' + error.message)
@@ -29,20 +29,19 @@ export default class SocialsController {
       }
 
       const githubUser = await github.user()
-      let user = await User.findBy('email', githubUser.email)
-
+      let user = await User.findBy('github_id', githubUser.id)
       if (!user) {
-        user = await User.create({
-          email: githubUser.email,
-          github_id: githubUser.id,
-          github_token: githubUser.token.token,
-        })
+        user = new User()
+        ;(user.name = githubUser.original.login),
+          (user.github_id = githubUser.id),
+          (user.avatar_url = githubUser.avatarUrl),
+          // github_token: githubUser.token.token,
+          await user.save()
       }
-
       await auth.use('web').login(user)
-      return response.redirect('/workspace')
+      return response.redirect('http://localhost:5173/workspace')
     } catch (error) {
-      console.error('Erreur lors de la connexion via GitHub :', error)
+      console.error('Erreur lors de la connexion via GitHub', error)
       return response.status(500).json({ error: 'Erreur lors de la connexion via GitHub' })
     }
   }

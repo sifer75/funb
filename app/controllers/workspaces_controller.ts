@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Workspace from '#models/workspace'
+import User from '#models/user'
 export default class WorkspacesController {
   async createWorkspace({ response, request }: HttpContext) {
     try {
@@ -20,9 +21,18 @@ export default class WorkspacesController {
     }
   }
 
-  async getAllWorkspace({ response }: HttpContext) {
+  async getAllWorkspace({ auth, response }: HttpContext) {
     try {
-      const workspaces = await Workspace.all()
+      if (!auth || !auth.user || !auth.user.github_id) {
+        return response.status(404).json({ e: 'Id du user non trouvé' })
+      }
+      const userId = auth.user.github_id
+      const user = await User.find(userId)
+      if (!user) {
+        return response.status(404).json({ e: 'Utilisateur non trouvé' })
+      }
+      const workspaces = await user.related('workspaces').query()
+      console.log(workspaces, 'workspaces')
       return response.status(200).json(workspaces)
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la recherche des workspaces' })
