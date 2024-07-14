@@ -76,7 +76,6 @@ export default class TasksController {
       await task.delete()
       return response.status(200).json({ message: 'Tâche supprimée avec succès' })
     } catch (e) {
-      console.log(e)
       return response.status(500).json({ e: 'Erreur lors de la suppression de la tâche' })
     }
   }
@@ -94,6 +93,7 @@ export default class TasksController {
       }
       task.status = data.status
       await task.save()
+      return response.status(200).json({ message: 'Tâche mise à jour avec succès', task })
     } catch (e) {
       return response
         .status(500)

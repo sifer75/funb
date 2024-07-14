@@ -15,12 +15,15 @@ export default class Workspace extends BaseModel {
   declare description: string
 
   @column()
+  declare user_id: number
+
+  @column()
   declare status: 'archive' | 'not_archived'
 
   @hasMany(() => Kanban, { foreignKey: 'kanban_id' })
   declare kanbans: HasMany<typeof Kanban>
 
-  @belongsTo(() => User)
+  @belongsTo(() => User, { foreignKey: 'user_id' })
   declare workspace: BelongsTo<typeof User>
 
   @column.dateTime({ autoCreate: true })

@@ -33,7 +33,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare github_token: string | undefined
 
-  @hasMany(() => Workspace, { foreignKey: 'workspace_id' })
+  @hasMany(() => Workspace, { foreignKey: 'user_id' })
   declare workspaces: HasMany<typeof Workspace>
 
   @column.dateTime({ autoCreate: true })
