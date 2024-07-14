@@ -22,6 +22,7 @@ router.get('/github/callback', [SocialsController, 'githubCallback'])
 router
   .group(() => {
     router.get('/user/get', [UsersController, 'getUserInfo'])
+    router.post('/user/logout', [UsersController, 'logout'])
     // CRUD workspace
     router.post('/workspace/create', [WorkspacesController, 'createWorkspace'])
     router.get('/workspace/get', [WorkspacesController, 'getAllWorkspace'])

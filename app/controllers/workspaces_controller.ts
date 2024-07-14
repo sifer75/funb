@@ -40,7 +40,6 @@ export default class WorkspacesController {
       const workspaces = await user.related('workspaces').query()
       return response.status(200).json(workspaces)
     } catch (e) {
-      console.log(e)
       return response.status(500).json({ e: 'Erreur lors de la recherche des workspaces' })
     }
   }

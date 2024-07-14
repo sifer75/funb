@@ -35,7 +35,7 @@ export default class SocialsController {
         ;(user.name = githubUser.original.login),
           (user.github_id = githubUser.id),
           (user.avatar_url = githubUser.avatarUrl),
-          // github_token: githubUser.token.token,
+          // (user.github_token = githubUser.token.token),
           await user.save()
       }
       await auth.use('web').login(user)
