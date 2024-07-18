@@ -17,6 +17,12 @@ export default class Task extends BaseModel {
   declare kanban_id: number
 
   @column()
+  declare from: DateTime
+
+  @column()
+  declare to: DateTime
+
+  @column()
   declare status: 'to_do' | 'in_progress' | 'finished'
 
   @belongsTo(() => Kanban, { foreignKey: 'kanban_id' })

@@ -40,5 +40,6 @@ router
     router.delete('/task/delete/:id', [TaskController, 'deleteTask'])
     //update task status
     router.post('/task/update/status/:id', [TaskController, 'updateTaskStatus'])
+    router.post('/task/update/date/:id', [TaskController, 'updateTaskDate'])
   })
   .use(middleware.auth({ guards: ['web'] }))

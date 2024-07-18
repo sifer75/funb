@@ -100,4 +100,23 @@ export default class TasksController {
         .json({ e: 'Erreur lors de la modification du status de la tâche' })
     }
   }
+
+  async updateTaskDate({ response, auth, request }: HttpContext) {
+    try {
+      const data = request.only(['id', 'from', 'to'])
+      if (!auth || !auth.user || !auth.user.id) {
+        return response.status(404).json({ e: 'utilisateur non trouvé' })
+      }
+      const task = await Task.findOrFail(data.id)
+      task.from = data.from
+      task.to = data.to
+
+      await task.save()
+      return response.status(201).json(task)
+    } catch (e) {
+      return response
+        .status(500)
+        .json({ e: 'Erreur lors de la modification du status de la tâche' })
+    }
+  }
 }
