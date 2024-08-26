@@ -9,9 +9,10 @@ export default class extends BaseSchema {
       table.string('name').nullable()
       table.string('email', 254).nullable().unique()
       table.string('password', 255).nullable().unique()
-      table.string('github_id').nullable()
-      table.json('github_token').nullable()
+      table.string('provider_id')
+      table.json('token').nullable()
       table.string('avatar_url').nullable()
+      table.string('provider')
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
