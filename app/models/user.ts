@@ -25,13 +25,16 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column()
-  declare github_id: string
+  declare provider: string
+
+  @column()
+  declare provider_id: string
 
   @column()
   declare avatar_url: string
 
   @column()
-  declare github_token: string | undefined
+  declare token: string | undefined
 
   @hasMany(() => Workspace, { foreignKey: 'user_id' })
   declare workspaces: HasMany<typeof Workspace>

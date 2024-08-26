@@ -18,6 +18,8 @@ const UsersController = () => import('#controllers/users_controller')
 //connection
 router.get('/github/redirect', [SocialsController, 'githubRedirect'])
 router.get('/github/callback', [SocialsController, 'githubCallback'])
+router.get('/google/redirect', [SocialsController, 'googleRedirect'])
+router.get('/google/callback', [SocialsController, 'googleCallback'])
 
 router
   .group(() => {

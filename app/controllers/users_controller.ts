@@ -1,17 +1,12 @@
-import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UsersController {
   async getUserInfo({ auth, response }: HttpContext) {
     try {
-      if (!auth || !auth.user || !auth.user.github_id) {
+      if (!auth || !auth.user) {
         return response.status(400).json({ error: 'Utilisateur non trouvé' })
       }
-      const githubId = auth.user.github_id
-      const user = await User.findByOrFail('github_id', githubId)
-      if (!user) {
-        return response.status(400).json({ error: 'Utilisateur non trouvé' })
-      }
+      const user = await auth.getUserOrFail()
       return response.json(user)
     } catch (e) {
       return response
