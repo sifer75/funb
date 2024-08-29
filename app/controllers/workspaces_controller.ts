@@ -72,4 +72,20 @@ export default class WorkspacesController {
       return response.status(500).json({ e: 'Erreur lors de la suppression du workspace' })
     }
   }
+
+  async getSpecificWorkspace({ response, params }: HttpContext) {
+    try {
+      const workspaceId = await params.id
+      if (!workspaceId) {
+        return response.status(500).json({ e: 'id du workspace non trouvé' })
+      }
+      const workspace = await Workspace.find(workspaceId)
+      if (!workspace) {
+        return response.status(500).json({ e: 'workspace non trouvé' })
+      }
+      return response.status(200).json(workspace)
+    } catch (e) {
+      return response.status(500).json({ e: 'Erreur lors de la récupération du workspace' })
+    }
+  }
 }

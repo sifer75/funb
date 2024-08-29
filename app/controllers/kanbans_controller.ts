@@ -6,8 +6,13 @@ import Workspace from '#models/workspace'
 export default class KanbansController {
   async createKanban({ response, request }: HttpContext) {
     try {
-      const { title, workspaceId }: { title: string; workspaceId: number } = request.only([
+      const {
+        title,
+        description,
+        workspaceId,
+      }: { title: string; description: string; workspaceId: number } = request.only([
         'title',
+        'description',
         'workspaceId',
       ])
       const workspace = await Workspace.find(workspaceId)
@@ -16,6 +21,7 @@ export default class KanbansController {
       }
       const kanban = new Kanban()
       kanban.title = title
+      kanban.description = description
       kanban.workspace_id = workspaceId
 
       await kanban.save()
@@ -51,6 +57,7 @@ export default class KanbansController {
       }
 
       kanban.title = data.title
+      kanban.description = data.description
       await kanban.save()
       return response.status(201).json(kanban)
     } catch (e) {

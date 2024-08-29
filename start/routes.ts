@@ -28,6 +28,7 @@ router
     // CRUD workspace
     router.post('/workspace/create', [WorkspacesController, 'createWorkspace'])
     router.get('/workspace/get', [WorkspacesController, 'getAllWorkspace'])
+    router.get('/workspace/get/:id', [WorkspacesController, 'getSpecificWorkspace'])
     router.post('/workspace/update/:id', [WorkspacesController, 'updateWorkspace'])
     router.delete('/workspace/delete/:id', [WorkspacesController, 'deleteWorkspace'])
     // CRUD kanban

@@ -12,6 +12,9 @@ export default class Kanban extends BaseModel {
   declare title: string
 
   @column()
+  declare description: string
+
+  @column()
   declare workspace_id: number
 
   @column()

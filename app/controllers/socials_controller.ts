@@ -42,7 +42,6 @@ export default class SocialsController {
           // (user.token = githubUser.token.token),
           await user.save()
       }
-      console.log(user, 'f')
       await auth.use('web').login(user)
       return response.redirect('http://localhost:5173/workspace')
     } catch (error) {
