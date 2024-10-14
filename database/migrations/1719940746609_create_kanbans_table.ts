@@ -15,6 +15,8 @@ export default class extends BaseSchema {
         .inTable('workspaces')
         .onDelete('CASCADE')
       table.string('description')
+      table.timestamp('from', { useTz: true }).nullable()
+      table.timestamp('to', { useTz: true }).nullable()
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
     })

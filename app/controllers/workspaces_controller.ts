@@ -25,7 +25,7 @@ export default class WorkspacesController {
 
   async getAllWorkspace({ auth, response }: HttpContext) {
     try {
-      const user = await auth.getUserOrFail()
+      const user = auth.getUserOrFail()
       if (!user) {
         return response.status(404).json({ e: 'Utilisateur non trouvé' })
       }
@@ -72,10 +72,9 @@ export default class WorkspacesController {
       return response.status(500).json({ e: 'Erreur lors de la suppression du workspace' })
     }
   }
-
   async getSpecificWorkspace({ response, params }: HttpContext) {
     try {
-      const workspaceId = await params.id
+      const workspaceId: number = await params.id
       if (!workspaceId) {
         return response.status(500).json({ e: 'id du workspace non trouvé' })
       }

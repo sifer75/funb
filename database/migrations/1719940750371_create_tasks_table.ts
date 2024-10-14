@@ -10,8 +10,6 @@ export default class extends BaseSchema {
       table.string('description')
       table.integer('kanban_id').unsigned().references('id').inTable('kanbans').onDelete('CASCADE')
       table.enum('status', ['to_do', 'in_progress', 'finished']).defaultTo('to_do')
-      table.timestamp('from', { useTz: true }).nullable()
-      table.timestamp('to', { useTz: true }).nullable()
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
     })

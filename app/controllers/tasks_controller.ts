@@ -43,7 +43,7 @@ export default class TasksController {
 
   async updateTask({ response, params, request }: HttpContext) {
     try {
-      const data = request.only(['title', 'description'])
+      const data = request.only(['title', 'description', 'status'])
       const taskId = params.id
       if (!taskId) {
         return response.status(404).json({ e: 'id de la tâche non trouvée' })
@@ -54,8 +54,9 @@ export default class TasksController {
       }
       task.title = data.title
       task.description = data.description
+      task.status = data.status
       await task.save()
-      return response.status(201).json(task)
+      return response.status(200).json(task)
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la modification de la tâche' })
     }
