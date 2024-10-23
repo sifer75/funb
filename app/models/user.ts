@@ -5,6 +5,7 @@ import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import Workspace from './workspace.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Mission from './mission.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -38,6 +39,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Workspace, { foreignKey: 'user_id' })
   declare workspaces: HasMany<typeof Workspace>
+
+  @hasMany(() => Mission, { foreignKey: 'user_id' })
+  declare missions: HasMany<typeof Mission>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

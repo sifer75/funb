@@ -14,7 +14,7 @@ const KanbansController = () => import('#controllers/kanbans_controller')
 const TaskController = () => import('#controllers/tasks_controller')
 const SocialsController = () => import('#controllers/socials_controller')
 const UsersController = () => import('#controllers/users_controller')
-
+const MissionController = () => import('#controllers/missions_controller')
 //connection
 router.get('/github/redirect', [SocialsController, 'githubRedirect'])
 router.get('/github/callback', [SocialsController, 'githubCallback'])
@@ -43,6 +43,8 @@ router
     router.delete('/task/delete/:id', [TaskController, 'deleteTask'])
     //update task status
     router.post('/task/update/status/:id', [TaskController, 'updateTaskStatus'])
-    router.post('/task/update/date/:id', [TaskController, 'updateTaskDate'])
+    //CRUD mission
+    router.post('/mission/create', [MissionController, 'createMission'])
+    router.get('/mission/get', [MissionController, 'getAllMissionsFromDate'])
   })
   .use(middleware.auth({ guards: ['web'] }))
