@@ -11,24 +11,21 @@ export default class MissionsController {
       const {
         title,
         tasks,
-        dateFrom,
-        dateTo,
+        date,
         timeFrom,
         timeTo,
       }: {
         title: string
         tasks: string
-        dateFrom: string
-        dateTo: string
+        date: string
         timeFrom: string
         timeTo: string
-      } = request.only(['title', 'tasks', 'timeFrom', 'timeTo', 'dateFrom', 'dateTo'])
-
+      } = request.only(['title', 'tasks', 'timeFrom', 'timeTo', 'date'])
+      console.log(date, '(')
       const mission = new Mission()
       mission.title = title
       mission.tasks = tasks
-      mission.date_from = dateFrom
-      mission.date_to = dateTo
+      mission.date = date
       mission.time_from = timeFrom
       mission.time_to = timeTo
       mission.user_id = auth.user.id
@@ -44,13 +41,19 @@ export default class MissionsController {
     }
   }
 
-  async getAllMissionsFromDate({ response, auth }: HttpContext) {
+  async getAllMissionsFromDate({ response, auth, request }: HttpContext) {
     try {
-      const user = auth.getUserOrFail()
+      const user = await auth.getUserOrFail()
       if (!user) {
         return response.status(404).json({ e: 'Utilisateur non trouvé' })
       }
-      const missions = await user.related('missions').query()
+      const date = request.input('date')
+      console.log(date, 'date')
+      if (!date) {
+        return response.status(404).json({ e: 'Date non fournie' })
+      }
+
+      const missions = await user.related('missions').query().where('date', date)
       return response.status(200).json(missions)
     } catch (e) {
       return response.status(500).json({ e: 'Erreur lors de la récupération des missions' })

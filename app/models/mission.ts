@@ -23,10 +23,7 @@ export default class Mission extends BaseModel {
   declare time_to: string
 
   @column()
-  declare date_from: string
-
-  @column()
-  declare date_to: string
+  declare date: string
 
   @belongsTo(() => User, { foreignKey: 'user_id' })
   declare mission: BelongsTo<typeof User>
